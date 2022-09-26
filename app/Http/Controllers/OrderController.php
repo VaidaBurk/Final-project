@@ -10,17 +10,17 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public static function createOrder($products): int
+    public static function createOrder($basket): int
     {
         $order = new Order();
         $order->user_id = Auth::id();
         $order->save();
 
-        foreach ($products as $product) {
+        foreach ($basket as $item) {
             $orderItem = new OrderItem();
-            $orderItem->product_id = $product['id'];
+            $orderItem->product_id = $item['id'];
             $orderItem->order_id = $order->id;
-            $orderItem->quantity = $product['quantity'];
+            $orderItem->quantity = $item['quantity'];
             $orderItem->save();
         }
 

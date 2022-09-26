@@ -44,18 +44,20 @@ Route::resource('artists', ArtistController::class)
     //reiks Auth veliau
 
 Route::resource('albums', AlbumController::class)
-    ->only(['index', 'store', 'update', 'destroy']);
+    ->only(['index', 'store', 'update', 'destroy', ]);
 
 Route::resource('shop', AlbumStoreController::class)
     ->only(['index']);
 
 Route::post('/buy', [AlbumStoreController::class, 'buy']);
 
-Route::post('/readfromfile', [AlbumController::class, 'readfromfile']);
+Route::post('/openFile', [AlbumController::class, 'openFile']);
 
-Route::get('/albums/upload', function () {
-    return Inertia::render('Albums/Upload');
-})->name('upload');
+Route::get('/sendOrderMail/{id}', function($id) {
+    Mail::to()->send(new OrderMail($id));
+});
+
+Route::get('/upload', [AlbumController::class, 'upload']);
 
 
 require __DIR__ . '/auth.php';

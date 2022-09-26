@@ -5,7 +5,6 @@ namespace App\Mail;
 use App\Models\Album;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -22,11 +21,11 @@ class OrderMail extends Mailable
      *
      * @return void
      */
-    private $order, $orderProducts;
+    private $order, $orderedAlbums;
 
-    public function __construct(int $id)
+    public function __construct(int $orderId)
     {
-        $order = Order::where("id", $id)->first();
+        $order = Order::where("id", $orderId)->first();
 
         // checking if user owns the order, if not, he is redirected to main page
         if (!($order->user_id === Auth::id())) {
@@ -36,20 +35,20 @@ class OrderMail extends Mailable
 
         $email = DB::table("users")->where('id', '=', $order->user_id)->select("email")->get()->first()->email;
         $order->user_email = $email;
-        $orderItems = OrderItem::where("order_id", $id)->get();
+        $orderItems = OrderItem::where("order_id", $orderId)->get();
         $orderedAlbums = [];
         
-        foreach($orderItems as $item) {
-            $product = Album::where("id", $item->product_id)->get()->first();
-            $orderProduct = (object)[];
-            $orderProduct->id = $product->id;
-            $orderProduct->name = $product->name;
-            $orderProduct->quantity = $item->quantity;
-            array_push($orderedAlbums, $orderProduct);
+        foreach($orderItems as $orderItem) {
+            $album = Album::where("id", $orderItem->product_id)->get()->first();
+            $orderAlbum = (object)[];
+            $orderAlbum->id = $album->id;
+            $orderAlbum->title = $album->title;
+            $orderAlbum->quantity = $orderItem->quantity;
+            array_push($orderedAlbums, $orderAlbum);
         }
 
         $this->order = $order;
-        $this->orderProducts = $orderedAlbums;
+        $this->orderedAlbums = $orderedAlbums;
     }
 
     /**

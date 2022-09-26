@@ -4,17 +4,19 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import AlbumTableRow from "@/Components/AlbumTableRow";
 
-export default function AlbumsFromFile({filename}) {
+export default function AlbumsFromFile({file, csrf_token}) {
     
         const headers = new Headers();
-        headers.append("Content-type", "application/json");
-        fetch("http://127.0.0.1:8000/readfromfile", {
+        const data = new FormData();
+        headers.append('X-CSRF-TOKEN', csrf_token);
+        data.append('file', file);
+        fetch("http://127.0.0.1:8000/openFile", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({filename})
+            body: data,
         }).then(function (response) {
             response.json().then(albums => {
-                console.log(albums);
+
             })
         })
 

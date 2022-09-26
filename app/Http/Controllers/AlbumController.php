@@ -7,6 +7,7 @@ use App\Models\Album;
 use App\Models\Artist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class AlbumController extends Controller
@@ -20,7 +21,16 @@ class AlbumController extends Controller
     {
         return Inertia::render('Albums/Index', [
             'albums' => Album::with('artist:id,title')->get(),
-            'artists' => DB::table('artists')->select()->get()
+            'artists' => DB::table('artists')->select()->get(),
+            'csrf_token' => csrf_token(),
+        ]);
+    }
+
+    public function upload()
+    {
+        return Inertia::render('Albums/Upload', [
+            'albums' => Album::with('artist:id,title')->get(),
+            'csrf_token' => csrf_token(),
         ]);
     }
 
@@ -105,7 +115,9 @@ class AlbumController extends Controller
         return redirect(route('album.index'));
     }
 
-    public function readFromFile(Request $request) {
-        dd($request);
+    public function openFile(Request $request) {
+        $content = $request->file('file')->get();
+        $albumsJson = json_decode($content);
+        dd($albumsJson);
     }
 }

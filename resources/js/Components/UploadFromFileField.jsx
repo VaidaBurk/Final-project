@@ -2,15 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import PrimaryButton from './PrimaryButton';
 import AlbumsFromFile from "@/Components/AlbumsFromFile";
 
-export default function UploadFromFileField() {
+export default function UploadFromFileField( {auth, header, csrf_token }) {
 
-    const [filename, setFilename] = useState();
-    const [filepath, setFilepath] = useState();
+    const [file, setFile] = useState();
     const [load, setLoad] = useState(false);
 
     const onFileNameChange = (e) => {
-        const filename = e.target.files[0].name;
-        setFilename(filename);
+        const file = e.target.files[0];
+        setFile(file);
     }
 
     return (
@@ -29,7 +28,7 @@ export default function UploadFromFileField() {
                 >
                     Upload
             </button>
-            {load == true && <AlbumsFromFile filename={filename}></AlbumsFromFile>}
+            {load == true && <AlbumsFromFile file={file} csrf_token={csrf_token}></AlbumsFromFile>}
         </div>
     );
 }

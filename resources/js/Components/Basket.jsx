@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import Table from 'react-bootstrap/Table';
-import axios from 'axios';
 
 export default function Basket({csrf_token}) {
     
@@ -11,34 +10,26 @@ export default function Basket({csrf_token}) {
     }
     
     const [items, changeProducts] = useState(JSON.parse(sessionStorage.getItem("basket")));
-    const [token, setToken] = useState();
     
     const clearBasket = () => {
         sessionStorage.setItem("basket", JSON.stringify([]));
         changeProducts([]);
         sessionStorage.removeItem("albums");
         sessionStorage.removeItem('albumsLeft');
-        window.location.reload();
+        //window.location.reload();
     }
     
     const onBuy = () => {
-        // axios.post("http://127.0.0.1:8000/buy", { "basket": items })
-        // .then( response => console.log(response))
-        // .catch(error => console.log(error));
         const headers = new Headers();
         headers.append("Content-type", "application/json");
         headers.append('X-CSRF-TOKEN', csrf_token);
-        //headers.append("X-CSRF-TOKEN", csrf_token);
         fetch("http://127.0.0.1:8000/buy", {
             method: "POST",
             headers: headers,
             body: JSON.stringify({ "basket": items })
         }).then((response) => {
-            response.json().then((body) => {
-                alert(body);
                 clearBasket();
             })
-        });
     }
 
     const removeProductFromBasket = (id) => {
