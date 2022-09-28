@@ -22,7 +22,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -30,6 +30,9 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+// Route::resource('/', AlbumStoreController::class)
+//     ->only(['index']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -49,15 +52,21 @@ Route::resource('albums', AlbumController::class)
 Route::resource('shop', AlbumStoreController::class)
     ->only(['index']);
 
+Route::resource('/', AlbumStoreController::class)
+    ->only(['index']);
+
 Route::post('/buy', [AlbumStoreController::class, 'buy']);
 
-Route::post('/openFile', [AlbumController::class, 'openFile']);
+Route::post('/readFile', [AlbumController::class, 'readFile']);
 
 Route::get('/sendOrderMail/{id}', function($id) {
     Mail::to()->send(new OrderMail($id));
 });
 
 Route::get('/upload', [AlbumController::class, 'upload']);
+
+Route::post('/saveToDB', [AlbumController::class, 'saveToDB']);
+
 
 
 require __DIR__ . '/auth.php';

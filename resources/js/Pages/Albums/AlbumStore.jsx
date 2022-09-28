@@ -1,5 +1,6 @@
 import React from "react";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import NotAuthenticatedLayout from '@/Layouts/NotAuthenticatedLayout';
 import { Head } from '@inertiajs/inertia-react';
 import AlbumStoreItem from "@/Components/AlbumStoreItem";
 import Row from 'react-bootstrap/Row';
@@ -57,25 +58,50 @@ export default function AlbumStore({ auth, albums, csrf_token }) {
     }
 
     return (
-        <AuthenticatedLayout auth={auth} header={''} csrf_token={csrf_token} >
-            <Head title="Shop" />
-
-            <div className="max-w-3x1 mx-10 md:mx-10 sm:mx-5 p-4 sm:p-6 lg:p-8">
-                {(albumsLeft == undefined)
-                    ?
-                    <Row>
-                        {albums.map(album =>
-                            <AlbumStoreItem album={album} addToBasket={addToBasket} />)
-                        }
-                    </Row>
-                    :
-                    <Row>
-                        {albumsLeft.map(album =>
-                            <AlbumStoreItem album={album} addToBasket={addToBasket} />)
-                        }
-                    </Row>
-                }
-            </div>
-        </AuthenticatedLayout>
+        <>
+        {auth.user == null &&
+            <NotAuthenticatedLayout auth={auth} header={''} csrf_token={csrf_token} >
+                <Head title="Shop" />
+                <div className="max-w-3x1 mx-10 md:mx-10 sm:mx-5 p-4 sm:p-6 lg:p-8">
+                    {(albumsLeft == undefined)
+                        ?
+                        <Row>
+                            {albums.map(album =>
+                                <AlbumStoreItem album={album} addToBasket={addToBasket} />)
+                            }
+                        </Row>
+                        :
+                        <Row>
+                            {albumsLeft.map(album =>
+                                <AlbumStoreItem album={album} addToBasket={addToBasket} />)
+                            }
+                        </Row>
+                    }
+                </div>
+            </NotAuthenticatedLayout>
+        }
+        
+        {auth.user &&
+            <AuthenticatedLayout auth={auth} header={''} csrf_token={csrf_token} >
+                <Head title="Shop" />
+                <div className="max-w-3x1 mx-10 md:mx-10 sm:mx-5 p-4 sm:p-6 lg:p-8">
+                    {(albumsLeft == undefined)
+                        ?
+                        <Row>
+                            {albums.map(album =>
+                                <AlbumStoreItem album={album} addToBasket={addToBasket} />)
+                            }
+                        </Row>
+                        :
+                        <Row>
+                            {albumsLeft.map(album =>
+                                <AlbumStoreItem album={album} addToBasket={addToBasket} />)
+                            }
+                        </Row>
+                    }
+                </div>
+            </AuthenticatedLayout>
+        }
+        </>
     )
 }

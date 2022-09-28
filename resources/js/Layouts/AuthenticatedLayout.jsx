@@ -34,7 +34,7 @@ export default function Authenticated({ auth, header, children, csrf_token }) {
                                 <NavLink href={route('artists.index')} active={route().current('artists.index')}>
                                     Artists
                                 </NavLink>
-                                <NavLink href={route('albums.index')} >
+                                <NavLink href={route('albums.index')} active={route().current('artists.index')}>
                                     Albums
                                 </NavLink>
                                 <NavLink href={route('shop.index')} >
@@ -89,7 +89,7 @@ export default function Authenticated({ auth, header, children, csrf_token }) {
                                             </div>
                                         </Dropdown.Trigger>
                                         <Dropdown.Content>
-                                            <Basket csrf_token={csrf_token}></Basket>
+                                            <Basket csrf_token={csrf_token} auth={auth}></Basket>
                                         </Dropdown.Content>
 
                                     </Dropdown>

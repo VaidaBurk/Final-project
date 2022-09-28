@@ -50,14 +50,14 @@ class AlbumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public static function store(Request $request)
     {
         $validated = $request->validate(['title' => 'required|string|max:255', 'artist_id' => 'required', 'release_date' => 'required', 'price' => 'required', 'stock_quantity' => 'required']); // neveikia validacija
         $artist = Artist::find($request->artist_id);
         if ($artist == null) {
             return ("Artist does not exist.");
         }
-        $artist->albums()->create($validated); 
+        $artist->albums()->create($validated);
         return redirect()->route('albums.index')->with('success', 'Album created successfully.');
     }
 
@@ -112,12 +112,27 @@ class AlbumController extends Controller
     public function destroy(Album $album)
     {
         $album->delete();
-        return redirect(route('album.index'));
+        return redirect(route('albums.index'));
     }
 
-    public function openFile(Request $request) {
+    public function readFile(Request $request)
+    {
         $content = $request->file('file')->get();
-        $albumsJson = json_decode($content);
-        dd($albumsJson);
+        $albums = json_decode($content);
+        return $albums;
+    }
+
+    public function saveToDB(Request $request)
+    {
+        $albums = $request->albums;
+        foreach ($albums as $album) {
+            $artist = Artist::find($album['artist_id']);
+            if ($artist == null) {
+                return ("Artist does not exist.");
+            }
+            $artist->albums()->create($album);
+        }
+
+        return 'Success';
     }
 }

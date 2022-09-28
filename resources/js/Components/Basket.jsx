@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import Table from 'react-bootstrap/Table';
 
-export default function Basket({csrf_token}) {
+export default function Basket({csrf_token, auth}) {
     
     if (sessionStorage.getItem("basket") === null) {
         sessionStorage.setItem("basket", JSON.stringify([]));
@@ -76,7 +76,12 @@ export default function Basket({csrf_token}) {
                 </tbody>
             </Table>
             <div className="mt-3">
+                {auth &&
                 <button className="btn btn-outline-dark btn-sm mr-2 uppercase" onClick={onBuy}>Buy</button>
+                }
+                {!auth &&
+                <button className="btn btn-outline-dark btn-sm mr-2 uppercase">Login to Buy</button>
+                }
                 <button className="btn btn-light btn-sm uppercase" onClick={clearBasket}>Clear</button>
             </div>
 

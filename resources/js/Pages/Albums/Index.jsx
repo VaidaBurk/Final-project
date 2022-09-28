@@ -14,7 +14,7 @@ export default function Index({ auth, albums, artists, csrf_token }) {
             <Head title="Albums" />
             <AlbumForm artists={artists}></AlbumForm>
             <div className="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
-            <NavLink href='http://127.0.0.1:8000/upload' >upload</NavLink>
+            <NavLink href='http://127.0.0.1:8000/upload' >Import albums from file</NavLink>
             </div>
 
             <div className="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
