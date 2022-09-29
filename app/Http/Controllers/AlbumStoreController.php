@@ -21,6 +21,13 @@ class AlbumStoreController extends Controller
         ]);
     }
 
+    public function basket()
+    {
+        return Inertia::render('Albums/BasketPage', [
+            'csrf_token' => csrf_token(),
+        ]);
+    }
+
     public function buy(Request $request)
     {
         $basket = $request->basket;

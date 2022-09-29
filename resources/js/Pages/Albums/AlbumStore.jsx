@@ -43,7 +43,12 @@ export default function AlbumStore({ auth, albums, csrf_token }) {
             const title = albums.find((item) => {
                 return item.id === id;
             }).title;
-            itemInBasket = { id: id, title: title, quantity: 1, stockQuantity: item.stock_quantity }
+
+            const price = albums.find((item) => {
+                return item.id === id;
+            }).price;
+
+            itemInBasket = { id: id, title: title, quantity: 1, stockQuantity: item.stock_quantity, price: price }
             basket.push(itemInBasket);
         }
         else {
@@ -83,7 +88,6 @@ export default function AlbumStore({ auth, albums, csrf_token }) {
         
         {auth.user &&
             <AuthenticatedLayout auth={auth} header={''} csrf_token={csrf_token} >
-                <Head title="Shop" />
                 <div className="max-w-3x1 mx-10 md:mx-10 sm:mx-5 p-4 sm:p-6 lg:p-8">
                     {(albumsLeft == undefined)
                         ?

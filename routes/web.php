@@ -38,6 +38,9 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/basket', [AlbumStoreController::class, 'basket'])
+    ->middleware(['auth', 'verified'])->middleware(['auth', 'verified'])->name('basket');
+
 Route::resource('chirps', ChirpController::class)
     ->only(['index', 'store', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
