@@ -1,7 +1,6 @@
 import React, { useInsertionEffect } from "react";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
-import UploadFromFileField from "@/Components/UploadFromFileField";
 import { useForm } from '@inertiajs/inertia-react';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -27,7 +26,7 @@ export default function AlbumForm({ artists }) {
                 className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm p-2"
                 onChange={e => setData('title', e.target.value)}
             ></input>
-            <InputError message={errors.message} className="mt-2" />
+            <InputError message={errors.title} className="mt-2" />
 
             <select aria-label="Select artist"
                 defaultValue={data.artist_id}
@@ -40,13 +39,13 @@ export default function AlbumForm({ artists }) {
             </select>
 
             <input
-                
                 type="date"
                 placeholder="Release date"
                 className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-4 p-2"
                 onChange={e => setData('release_date', e.target.value)}
             ></input>
-            <InputError message={errors.message} className="mt-2" />
+            <InputError message={errors.release_date} className="mt-2" />
+            
             <input
                 type="number"
                 value={data.price}
@@ -54,7 +53,8 @@ export default function AlbumForm({ artists }) {
                 className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-4 p-2"
                 onChange={e => setData('price', e.target.value)}
             ></input>
-            <InputError message={errors.message} className="mt-2" />
+            <InputError message={errors.price} className="mt-2" />
+            
             <input
                 type="number"
                 value={data.stock_quantity}
@@ -62,7 +62,8 @@ export default function AlbumForm({ artists }) {
                 className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-4 p-2"
                 onChange={e => setData('stock_quantity', e.target.value)}
             ></input>
-            <InputError message={errors.message} className="mt-2" />
+            <InputError message={errors.stock_quantity} className="mt-2" />
+            
             <PrimaryButton className="mt-4" disabled={processing}>Save</PrimaryButton>
         </form>
     </div>

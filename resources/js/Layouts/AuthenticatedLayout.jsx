@@ -4,11 +4,10 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import Basket from '@/Components/Basket';
-
+import ViewBasketButton from '@/Components/TotalPrice';
 import { Link } from '@inertiajs/inertia-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBasketShopping } from '@fortawesome/free-solid-svg-icons';
-import ViewBasketButton from '@/Components/TotalPrice';
 
 export default function Authenticated({ auth, header, children, csrf_token }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -26,19 +25,19 @@ export default function Authenticated({ auth, header, children, csrf_token }) {
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                {/* <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
                                 <NavLink href={route('chirps.index')} active={route().current('chirps.index')}>
                                     Chirps
-                                </NavLink> */}
+                                </NavLink>
                                 <NavLink href={route('artists.index')} active={route().current('artists.index')}>
                                     Artists
                                 </NavLink>
-                                <NavLink href={route('albums.index')} active={route().current('artists.index')}>
+                                <NavLink href={route('albums.index')} active={route().current('albums.index')}>
                                     Albums
                                 </NavLink>
-                                <NavLink href={route('shop.index')} active={route().current('artists.index')}>
+                                <NavLink href={route('shop.index')} active={route().current('shop.index')}>
                                     Shop
                                 </NavLink>
                             </div>
@@ -90,7 +89,7 @@ export default function Authenticated({ auth, header, children, csrf_token }) {
                                             </div>
                                         </Dropdown.Trigger>
                                         <Dropdown.Content>
-                                            <Basket csrf_token={csrf_token} auth={auth} actionButtons={<ViewBasketButton></ViewBasketButton>}></Basket>
+                                            <Basket csrf_token={csrf_token} auth={auth} actionButtons={<a className='btn btn-outline-dark btn-sm mr-2 uppercase' href={route('basket')}>View Basket</a>}></Basket>
                                         </Dropdown.Content>
 
                                     </Dropdown>

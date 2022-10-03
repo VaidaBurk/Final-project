@@ -9,14 +9,13 @@
 </head>
 
 <body>
-    <h1>Order Id: {{ $order->id }}, User Id: {{ $order->user_id }}, User email: {{ $order->user_email }}</h1>
-    @foreach ($order_items as $item)
-    <div class="row mx-5 my-2">
-        <div class="col-2">Product ID: {{$item->id}}</div>
-        <div class="col-2">Product name: {{$item->title}}</div>
-        <div class="col-2">Quantity: {{$item->quantity}}</div>
-    </div>
-    @endforeach
+    <h3>Order {{ $order->id }} is confirmed!</h3>
+            @foreach ($order_items as $item)
+                <h4>Title: {{$item->title}}</h4>
+                <h4>Quantity: {{$item->quantity}}</h4>
+            @endforeach
+
+  </body>
 </body>
 
 </html>

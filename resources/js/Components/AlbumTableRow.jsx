@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Dropdown from "./Dropdown";
 import PrimaryButton from "./PrimaryButton";
+import InputError from "@/Components/InputError";
 
 export default function AlbumTableRow({ album, artists }) {
     const { auth } = usePage().props;
@@ -45,6 +46,13 @@ export default function AlbumTableRow({ album, artists }) {
                         <Col sm={2} className='text-center'>
                             <input className="form-control shadow-sm" type="number" value={data.stock_quantity} onChange={e => setData('stock_quantity', e.target.value)} />
                         </Col>
+                    </Row>
+                    <Row>
+                        <InputError message={errors.title} className="mt-2" />
+                        <InputError message={errors.release_date} className="mt-2" />
+                        <InputError message={errors.artist_id} className="mt-2" />
+                        <InputError message={errors.price} className="mt-2" />
+                        <InputError message={errors.stock_quantity} className="mt-2" />
                     </Row>
                     <div className="space-x-2">
                         <PrimaryButton className="mx-2 mb-6">Save</PrimaryButton>

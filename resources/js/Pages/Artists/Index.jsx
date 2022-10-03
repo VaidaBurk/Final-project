@@ -28,14 +28,14 @@ export default function Index({ auth, artists }) {
                         className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm p-2"
                         onChange={e => setData('title', e.target.value)}
                     ></input>
-                    <InputError message={errors.message} className="mt-2" />
+                    <InputError message={errors.title} className="mt-2" />
                     <input
                         value={data.origin}
                         placeholder="Origin"
                         className="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-4 p-2"
                         onChange={e => setData('origin', e.target.value)}
                     ></input>
-                    <InputError message={errors.message} className="mt-2" />
+                    <InputError message={errors.origin} className="mt-2" />
                     <PrimaryButton className="mt-4" disabled={processing}>Save</PrimaryButton>
                 </form>
                 <div className="p-3 mt-10 bg-white shadow-sm rounded-lg divide-y">

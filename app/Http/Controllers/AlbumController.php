@@ -52,7 +52,13 @@ class AlbumController extends Controller
      */
     public static function store(Request $request)
     {
-        $validated = $request->validate(['title' => 'required|string|max:255', 'artist_id' => 'required', 'release_date' => 'required', 'price' => 'required', 'stock_quantity' => 'required']); // neveikia validacija
+        $validated = $request->validate([
+            'title' => 'required|string|max:255', 
+            'artist_id' => 'required', 
+            'release_date' => 'date|required', 
+            'price' => 'required|numeric|min:0', 
+            'stock_quantity' => 'required|numeric|min:0'
+        ]);
         $artist = Artist::find($request->artist_id);
         if ($artist == null) {
             return ("Artist does not exist.");
@@ -96,8 +102,8 @@ class AlbumController extends Controller
             'title' => 'required|string',
             'release_date' => 'required',
             'artist_id' => 'required|numeric',
-            'price' => 'required|numeric',
-            'stock_quantity' => 'required|numeric'
+            'price' => 'required|numeric|min:0',
+            'stock_quantity' => 'required|numeric|min:0'
         ]);
         $album->update($validated);
         return redirect(route('albums.index'));
