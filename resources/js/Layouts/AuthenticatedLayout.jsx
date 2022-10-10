@@ -4,7 +4,6 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import Basket from '@/Components/Basket';
-import ViewBasketButton from '@/Components/TotalPrice';
 import { Link } from '@inertiajs/inertia-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBasketShopping } from '@fortawesome/free-solid-svg-icons';
@@ -30,12 +29,6 @@ export default function Authenticated({ auth, header, children, csrf_token }) {
                                 </NavLink>
                                 <NavLink href={route('chirps.index')} active={route().current('chirps.index')}>
                                     Chirps
-                                </NavLink>
-                                <NavLink href={route('artists.index')} active={route().current('artists.index')}>
-                                    Artists
-                                </NavLink>
-                                <NavLink href={route('albums.index')} active={route().current('albums.index')}>
-                                    Albums
                                 </NavLink>
                                 <NavLink href={route('shop.index')} active={route().current('shop.index')}>
                                     Shop
@@ -134,23 +127,26 @@ export default function Authenticated({ auth, header, children, csrf_token }) {
                             Chirps
                         </ResponsiveNavLink>
                     </div>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('artists.index')} active={route().current('Artists.index')}>
-                            Artists
-                        </ResponsiveNavLink>
-                    </div>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('albums.index')} active={route().current('Albums.index')}>
-                            Albums
-                        </ResponsiveNavLink>
-                    </div>
-
                     <div className="pt-4 pb-1 border-t border-gray-200">
                         <div className="px-4">
                             <div className="font-medium text-base text-gray-800">{auth.user.name}</div>
                             <div className="font-medium text-sm text-gray-500">{auth.user.email}</div>
                         </div>
+                        <div className="ml-3 relative">
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                            <div className=" rounded-md">
+                                                <button type="button" className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                                    <FontAwesomeIcon icon={faBasketShopping} />
+                                                </button>
+                                            </div>
+                                        </Dropdown.Trigger>
+                                        <Dropdown.Content>
+                                            <Basket csrf_token={csrf_token} auth={auth} actionButtons={<a className='btn btn-outline-dark btn-sm mr-2 uppercase' href={route('basket')}>View Basket</a>}></Basket>
+                                        </Dropdown.Content>
 
+                                    </Dropdown>
+                                </div>
                         <div className="mt-3 space-y-1">
                             <ResponsiveNavLink method="post" href={route('logout')} as="button">
                                 Log Out

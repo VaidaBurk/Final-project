@@ -31,9 +31,6 @@ Route::get('/login', function () {
     ]);
 });
 
-// Route::resource('/', AlbumStoreController::class)
-//     ->only(['index']);
-
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -45,12 +42,12 @@ Route::resource('chirps', ChirpController::class)
     ->only(['index', 'store', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 
-Route::resource('artists', ArtistController::class)
-    ->only(['index', 'store', 'update', 'destroy']);
+// Route::resource('artists', ArtistController::class)
+//     ->only(['index', 'store', 'update', 'destroy']);
     //reiks Auth veliau
 
-Route::resource('albums', AlbumController::class)
-    ->only(['index', 'store', 'update', 'destroy', ]);
+// Route::resource('albums', AlbumController::class)
+//     ->only(['index', 'store', 'update', 'destroy', ]);
 
 Route::resource('shop', AlbumStoreController::class)
     ->only(['index']);
@@ -70,6 +67,12 @@ Route::get('/upload', [AlbumController::class, 'upload']);
 
 Route::post('/saveToDB', [AlbumController::class, 'saveToDB']);
 
-
+//admin
+Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function() {
+    Route::resource('artists', ArtistController::class)
+    ->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('albums', AlbumController::class)
+    ->only(['index', 'store', 'update', 'destroy', ]);
+});
 
 require __DIR__ . '/auth.php';

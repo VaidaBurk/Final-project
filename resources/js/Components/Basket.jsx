@@ -104,7 +104,7 @@ export default function Basket({ csrf_token, auth, actionButtons, extras }) {
                 }
                 <button className="btn btn-light btn-sm uppercase" onClick={clearBasket}>Clear</button>
             </div>
-            <div className="text-center font-monospace mt-5 mb-0">{message}</div>
+            <div className="text-center font-monospace mt-2 mb-0">{message}</div>
         </div>
     )
 }

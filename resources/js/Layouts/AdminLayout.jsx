@@ -4,12 +4,12 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import Basket from '@/Components/Basket';
-import Login from '@/Components/Login';
+import ViewBasketButton from '@/Components/TotalPrice';
 import { Link } from '@inertiajs/inertia-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBasketShopping } from '@fortawesome/free-solid-svg-icons';
 
-export default function NotAuthenticated({ header, children, csrf_token }) {
+export default function AdminLayout({ auth, header, children, csrf_token }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
@@ -23,19 +23,33 @@ export default function NotAuthenticated({ header, children, csrf_token }) {
                                     <ApplicationLogo className="block h-9 w-auto text-gray-500" />
                                 </Link>
                             </div>
+
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                    Dashboard
+                                </NavLink>
+                                <NavLink href={route('chirps.index')} active={route().current('chirps.index')}>
+                                    Chirps
+                                </NavLink>
+                                <NavLink href={route('artists.index')} active={route().current('artists.index')}>
+                                    Artists
+                                </NavLink>
+                                <NavLink href={route('albums.index')} active={route().current('albums.index')}>
+                                    Albums
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
-
                             <div className="ml-3 relative">
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <span className="inline-flex rounded-md">
-                                            <div
+                                            <button
                                                 type="button"
                                                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                Log In
+                                                {auth.user.name}
 
                                                 <svg
                                                     className="ml-2 -mr-0.5 h-4 w-4"
@@ -44,36 +58,40 @@ export default function NotAuthenticated({ header, children, csrf_token }) {
                                                     fill="currentColor"
                                                 >
                                                     <path
-                                                        fillRule=""
+                                                        fillRule="evenodd"
                                                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule=""
+                                                        clipRule="evenodd"
                                                     />
                                                 </svg>
-                                            </div>
+                                            </button>
                                         </span>
                                     </Dropdown.Trigger>
+
                                     <Dropdown.Content>
-                                        <Login></Login>
+                                        <Dropdown.Link href={route('logout')} method="post" as="button">
+                                            Log Out
+                                        </Dropdown.Link>
                                     </Dropdown.Content>
                                 </Dropdown>
                             </div>
 
-                            <div className="ml-3 relative">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <div className=" rounded-md">
-                                            <button type="button" className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                                <FontAwesomeIcon icon={faBasketShopping} />
-                                            </button>
-                                        </div>
-                                    </Dropdown.Trigger>
-                                    <Dropdown.Content>
-                                        <Basket csrf_token={csrf_token} actionButtons={<a className='btn btn-outline-dark btn-sm mr-2 uppercase' href={route('basket')}>View Basket</a>}></Basket>
-                                    </Dropdown.Content>
 
-                                </Dropdown>
-                            </div>
+                                {/* <div className="ml-3 relative">
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                            <div className=" rounded-md">
+                                                <button type="button" className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                                    <FontAwesomeIcon icon={faBasketShopping} />
+                                                </button>
+                                            </div>
+                                        </Dropdown.Trigger>
+                                        <Dropdown.Content>
+                                            <Basket csrf_token={csrf_token} auth={auth} actionButtons={<a className='btn btn-outline-dark btn-sm mr-2 uppercase' href={route('basket')}>View Basket</a>}></Basket>
+                                        </Dropdown.Content>
 
+                                    </Dropdown>
+                                </div> */}
+                            
                         </div>
 
                         <div className="-mr-2 flex items-center sm:hidden">
@@ -103,29 +121,37 @@ export default function NotAuthenticated({ header, children, csrf_token }) {
                 </div>
 
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="">
-                        <div className="ml-2 pt-2 pb-2 space-y-1">
-                            <ResponsiveNavLink href={route('login')} active={route().current('login')}>
-                                Login
-                            </ResponsiveNavLink>
-                        </div>
-                        <div className="ml-2 pt-2 pb-2 space-y-1">
-                            <ResponsiveNavLink href={route('register')} active={route().current('register')}>
-                                Register
-                            </ResponsiveNavLink>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
+                            Dashboard
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('chirps.index')} active={route().current('Chirps.index')}>
+                            Chirps
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('artists.index')} active={route().current('Artists.index')}>
+                            Artists
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('albums.index')} active={route().current('Albums.index')}>
+                            Albums
+                        </ResponsiveNavLink>
+                    </div>
+
+                    <div className="pt-4 pb-1 border-t border-gray-200">
+                        <div className="px-4">
+                            <div className="font-medium text-base text-gray-800">{auth.user.name}</div>
+                            <div className="font-medium text-sm text-gray-500">{auth.user.email}</div>
                         </div>
 
-                        <div className="ps-4 py-3 border-t border-gray-200">
-                            <Dropdown>
-                                <Dropdown.Trigger>
-                                    <button type="button" className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                        <FontAwesomeIcon icon={faBasketShopping} />
-                                    </button>
-                                </Dropdown.Trigger>
-                                <Dropdown.Content>
-                                    <Basket csrf_token={csrf_token} actionButtons={<a className='btn btn-outline-dark btn-sm mr-2 uppercase' href={route('basket')}>View Basket</a>}></Basket>
-                                </Dropdown.Content>
-                            </Dropdown>
+                        <div className="mt-3 space-y-1">
+                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
+                                Log Out
+                            </ResponsiveNavLink>
                         </div>
                     </div>
                 </div>
